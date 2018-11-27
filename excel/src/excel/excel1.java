@@ -14,32 +14,33 @@ public class excel1 {
 		XSSFRow row;
 		XSSFCell cell;
 		
-		String value[] = new String[100];
-		String value1[] = new String[100];
+		String words[] = new String[100];
+		String sentences[] = new String[100];
 
+		//단어 배열 만들기
 		try {
-			FileInputStream coursename = new FileInputStream("C:\\Users\\NA\\Desktop/1234.xlsx");
+			//파일 불러오기
+			FileInputStream word = new FileInputStream("C:\\Users\\NA\\Desktop/1234.xlsx");
+			XSSFWorkbook wordbook = new XSSFWorkbook(word);
 			
-			XSSFWorkbook coursenamebook = new XSSFWorkbook(coursename);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
-			int sheetCn=1;
+			int sheetCn=1;			
 			System.out.println("sheet수 : " + sheetCn);
 
 			//시트만큼 반복
 			for(int cn = 0; cn < sheetCn; cn++){
-				System.out.println("취득하는 sheet 이름 : " + coursenamebook.getSheetName(cn));
-				
+				System.out.println("취득하는 sheet 이름 : " + wordbook.getSheetName(cn));
 				//0번째 sheet 정보 취득
-				XSSFSheet sheet = coursenamebook.getSheetAt(cn);
+				XSSFSheet sheet = wordbook.getSheetAt(cn);
 				
 				//취득된 sheet에서 rows수 취득
 				int rows = sheet.getPhysicalNumberOfRows();
-				System.out.println(coursenamebook.getSheetName(cn) + " sheet의 row수 : " + rows);
+				System.out.println(wordbook.getSheetName(cn) + " sheet의 row수 : " + rows);
 
 				//취득된 row에서 취득대상 cell수 취득
 				int cells = sheet.getRow(cn).getPhysicalNumberOfCells();
-				System.out.println(coursenamebook.getSheetName(cn) + " sheet의 row에 취득대상 cell수 : " + cells);
+				System.out.println(wordbook.getSheetName(cn) + " sheet의 row에 취득대상 cell수 : " + cells);
 
 				for (int r = 0; r < rows; r++) {
 					row = sheet.getRow(r); // row 가져오기
@@ -47,8 +48,8 @@ public class excel1 {
 						for (int c = 0; c < cells; c++) {
 							cell = row.getCell(c);
 							if (cell != null) {								
-								value[r] = "" + cell.getStringCellValue();								
-								System.out.print(value[r] + "\t");								
+								words[r] = "" + cell.getStringCellValue();								
+								System.out.print(words[r] + "\t");								
 							} else {
 								System.out.print("[null]\t");
 							}
@@ -61,12 +62,12 @@ public class excel1 {
 			e.printStackTrace();
 		}
 		
+		//문장 배열 만들기
 		XSSFRow row1;
 		XSSFCell cell1;
 		try {
-			FileInputStream course = new FileInputStream("C:\\Users\\NA\\Desktop/123.xlsx");
-			
-			XSSFWorkbook coursebook = new XSSFWorkbook(course);
+			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\Desktop/123.xlsx");
+			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
 			int sheetCn=1;
@@ -74,18 +75,18 @@ public class excel1 {
 
 			//시트만큼 반복
 			for(int cn = 0; cn < sheetCn; cn++){
-				System.out.println("취득하는 sheet 이름 : " + coursebook.getSheetName(cn));
+				System.out.println("취득하는 sheet 이름 : " + sentencebook.getSheetName(cn));
 				
 				//0번째 sheet 정보 취득
-				XSSFSheet sheet = coursebook.getSheetAt(cn);
+				XSSFSheet sheet = sentencebook.getSheetAt(cn);
 				
 				//취득된 sheet에서 rows수 취득
 				int rows = sheet.getPhysicalNumberOfRows();
-				System.out.println(coursebook.getSheetName(cn) + " sheet의 row수 : " + rows);
+				System.out.println(sentencebook.getSheetName(cn) + " sheet의 row수 : " + rows);
 
 				//취득된 row에서 취득대상 cell수 취득
 				int cells = sheet.getRow(cn).getPhysicalNumberOfCells();
-				System.out.println(coursebook.getSheetName(cn) + " sheet의 row에 취득대상 cell수 : " + cells);
+				System.out.println(sentencebook.getSheetName(cn) + " sheet의 row에 취득대상 cell수 : " + cells);
 
 				for (int r = 0; r < rows; r++) {
 					row1 = sheet.getRow(r); // row 가져오기
@@ -93,9 +94,10 @@ public class excel1 {
 						for (int c = 0; c < cells; c++) {
 							cell1 = row1.getCell(c);
 							if (cell1 != null) {								
-								value1[r] = "" + cell1.getStringCellValue();
-								value1[r] = value1[r].replace("[[강의명]]", value[r]);
-								System.out.print(value1[r] + "\t");								
+								sentences[r] = "" + cell1.getStringCellValue();
+								//단어 바꾸기
+								sentences[r] = sentences[r].replace("[[강의명]]", words[r]);
+								System.out.print(sentences[r] + "\t");								
 							} else {
 								System.out.print("[null]\t");
 							}
