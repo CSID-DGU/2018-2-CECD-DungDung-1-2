@@ -9,11 +9,16 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
-public class excel1 {	
-	public static void main(String[] args) {
-		XSSFRow row;
-		XSSFCell cell;
-		
+public class excel1 {
+	
+	static XSSFRow row;
+	static XSSFCell cell;
+	static XSSFRow row1;
+	static XSSFCell cell1;
+	static XSSFRow row2;
+	static XSSFCell cell2;	
+	
+	public static void main(String[] args) {		
 		String words[] = new String[100];
 		String sentences[] = new String[100];
 
@@ -62,9 +67,7 @@ public class excel1 {
 			e.printStackTrace();
 		}
 		
-		//문장 배열 만들기
-		XSSFRow row1;
-		XSSFCell cell1;
+		//문장 배열 만들기 + 저장
 		try {
 			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\Desktop/123.xlsx");
 			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
@@ -111,5 +114,43 @@ public class excel1 {
 		}
 		
 		
+		//엑셀로 내보내기
+		XSSFWorkbook writebook = new XSSFWorkbook();
+		XSSFSheet writesheet = writebook.createSheet("mySheet");
+		
+		//출력 row 생성
+		
+		//내보내기위해 저장
+		
+		for(int i=0;i<sentences.length;i++) {
+			row = writesheet.createRow(i);
+			row.createCell(0).setCellValue(sentences[i]);
+		}		
+		/*
+		//출력 row 생성
+		row = sheet.createRow(1);
+		//출력 cell 생성
+		row.createCell(0).setCellValue("DATA 21");
+		row.createCell(1).setCellValue("DATA 22");
+		row.createCell(2).setCellValue("DATA 23");
+
+		row = sheet.createRow(2);
+		//출력 cell 생성
+		row.createCell(0).setCellValue("DATA 31");
+		row.createCell(1).setCellValue("DATA 32");
+		row.createCell(2).setCellValue("DATA 33");
+		*/
+
+		// 출력 파일 위치및 파일명 설정
+		FileOutputStream outFile;
+		try {
+			outFile = new FileOutputStream("데이터셋_test.xlsx");
+			writebook.write(outFile);
+			outFile.close();
+			System.out.println("파일생성 완료");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
 	}
 }
