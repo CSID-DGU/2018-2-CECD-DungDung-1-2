@@ -16,11 +16,14 @@ public class excel1 {
 	static XSSFRow row1;
 	static XSSFCell cell1;
 	static XSSFRow row2;
-	static XSSFCell cell2;	
+	static XSSFCell cell2;
+	static int count = 0;
 	
+	//**************words갯수만 바꿔주기**********************
 	public static void main(String[] args) {		
-		String words[] = new String[100];
+		String words[] = new String[3];
 		String sentences[] = new String[100];
+		String save_sentences[] = new String[10000];
 
 		//단어 배열 만들기
 		try {
@@ -96,11 +99,21 @@ public class excel1 {
 					if (row1 != null) {
 						for (int c = 0; c < cells; c++) {
 							cell1 = row1.getCell(c);
-							if (cell1 != null) {								
+							if (cell1 != null) {
 								sentences[r] = "" + cell1.getStringCellValue();
-								//단어 바꾸기
-								sentences[r] = sentences[r].replace("[[강의명]]", words[r]);
-								System.out.print(sentences[r] + "\t");								
+								//랜덤으로 3개 문장 넣어서 저장
+								for(int i=0;i<3;i++)
+								{
+									save_sentences[count] = sentences[r];
+									count++;
+								}
+								count=count-3;
+								for(int i=0;i<3;i++)
+								{
+									int random_num = (int)(Math.random()*words.length);
+									save_sentences[count] = save_sentences[count].replace("[[강의명]]", words[random_num]);
+									count++;
+								}														
 							} else {
 								System.out.print("[null]\t");
 							}
@@ -122,9 +135,9 @@ public class excel1 {
 		
 		//내보내기위해 저장
 		
-		for(int i=0;i<sentences.length;i++) {
+		for(int i=0;i<save_sentences.length;i++) {
 			row = writesheet.createRow(i);
-			row.createCell(0).setCellValue(sentences[i]);
+			row.createCell(0).setCellValue(save_sentences[i]);
 		}		
 		/*
 		//출력 row 생성
