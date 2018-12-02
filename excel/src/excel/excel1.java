@@ -19,16 +19,16 @@ public class excel1 {
 	static XSSFCell cell2;
 	static int count = 0;
 	
-	//**************words갯수만 바꿔주기*******************
+	//**************words갯수만 바꿔주기, 출력갯수 고려, 파일명3개바꾸고, 바꾸려는단어교체*******************
 	public static void main(String[] args) {		
-		String words[] = new String[3];
+		String words[] = new String[96];
 		String sentences[] = new String[100];
-		String save_sentences[] = new String[10000];
+		String save_sentences[] = new String[300];
 
 		//단어 배열 만들기
 		try {
 			//파일 불러오기
-			FileInputStream word = new FileInputStream("C:\\Users\\NA\\Desktop/1234.xlsx");
+			FileInputStream word = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2018_11_22_6차(강의이름).xlsx");
 			XSSFWorkbook wordbook = new XSSFWorkbook(word);
 			
 			//sheet수 취득
@@ -57,12 +57,12 @@ public class excel1 {
 							cell = row.getCell(c);
 							if (cell != null) {								
 								words[r] = "" + cell.getStringCellValue();								
-								System.out.print(words[r] + "\t");								
+								//System.out.print(words[r] + "\t");								
 							} else {
-								System.out.print("[null]\t");
+								//System.out.print("[null]\t");
 							}
 						} // for(c) 문
-						System.out.print("\n");
+						//System.out.print("\n");
 					}
 				} // for(r) 문
 			}
@@ -72,7 +72,7 @@ public class excel1 {
 		
 		//문장 배열 만들기 + 저장
 		try {
-			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\Desktop/123.xlsx");
+			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2018_11_22_6차(강의질문).xlsx");
 			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
@@ -115,10 +115,10 @@ public class excel1 {
 									count++;
 								}														
 							} else {
-								System.out.print("[null]\t");
+								//System.out.print("[null]\t");
 							}
 						} // for(c) 문
-						System.out.print("\n");
+						//System.out.print("\n");
 					}
 				} // for(r) 문
 			}
@@ -157,7 +157,7 @@ public class excel1 {
 		// 출력 파일 위치및 파일명 설정
 		FileOutputStream outFile;
 		try {
-			outFile = new FileOutputStream("데이터셋_test.xlsx");
+			outFile = new FileOutputStream("강의명+강의질문_181202.xlsx");
 			writebook.write(outFile);
 			outFile.close();
 			System.out.println("파일생성 완료");
