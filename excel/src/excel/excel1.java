@@ -19,7 +19,7 @@ public class excel1 {
 	static XSSFCell cell2;
 	static int count = 0;
 	
-	//**************words갯수만 바꿔주기*********************
+	//**************words갯수만 바꿔주기*******************
 	public static void main(String[] args) {		
 		String words[] = new String[3];
 		String sentences[] = new String[100];
