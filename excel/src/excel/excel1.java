@@ -19,11 +19,11 @@ public class excel1 {
 	static XSSFCell cell2;
 	static int count = 0;
 	
-	//**************words갯수만 바꿔주기, 출력갯수 고려, 파일명3개바꾸고, 바꾸려는단어교체*******************
+	//**************words갯수, 출력갯수, 파일명3개바꾸고, 바꾸려는단어교체*******************
 	public static void main(String[] args) {		
 		String words[] = new String[96];
 		String sentences[] = new String[100];
-		String save_sentences[] = new String[300];
+		String save_sentences[] = new String[200];
 
 		//단어 배열 만들기
 		try {
@@ -72,7 +72,7 @@ public class excel1 {
 		
 		//문장 배열 만들기 + 저장
 		try {
-			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2018_11_22_6차(강의질문).xlsx");
+			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2018_12_02_8차(교수님강의2).xlsx");
 			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
@@ -157,7 +157,7 @@ public class excel1 {
 		// 출력 파일 위치및 파일명 설정
 		FileOutputStream outFile;
 		try {
-			outFile = new FileOutputStream("강의명+강의질문_181202.xlsx");
+			outFile = new FileOutputStream("강의교수님_181204.xlsx");
 			writebook.write(outFile);
 			outFile.close();
 			System.out.println("파일생성 완료");
