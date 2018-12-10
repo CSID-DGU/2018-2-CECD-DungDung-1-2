@@ -127,7 +127,7 @@ public class excel1 {
 		XSSFSheet writesheet = writebook.createSheet("mySheet");
 		
 		//출력 row 생성
-		//내보내기위해 저장
+		//내보내기위해 저장먼저
 		for(int i=0;i<save_sentences.length;i++) {
 			row = writesheet.createRow(i);
 			row.createCell(0).setCellValue(save_sentences[i]);
