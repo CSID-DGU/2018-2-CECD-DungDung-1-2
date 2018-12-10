@@ -19,9 +19,9 @@ public class excel1 {
 	static XSSFCell cell2;
 	static int count = 0;
 	
-	//**************words갯수, 출력갯수, 파일명3개바꾸고, 바꾸려는단어교체*******************
+	//**************words갯수, 출력갯수, 파일명3개바꾸고, 바꾸려는단어교체***************
 	public static void main(String[] args) {		
-		String words[] = new String[96];
+		String words[] = new String[50];
 		String sentences[] = new String[100];
 		String save_sentences[] = new String[200];
 
@@ -57,14 +57,12 @@ public class excel1 {
 							cell = row.getCell(c);
 							if (cell != null) {								
 								words[r] = "" + cell.getStringCellValue();								
-								//System.out.print(words[r] + "\t");								
 							} else {
-								//System.out.print("[null]\t");
+								System.out.print("cell이 없습니다\t");
 							}
-						} // for(c) 문
-						//System.out.print("\n");
+						} 
 					}
-				} // for(r) 문
+				} 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,27 +112,22 @@ public class excel1 {
 									save_sentences[count] = save_sentences[count].replace("[[강의명]]", words[random_num]);
 									count++;
 								}														
-							} else {
-								//System.out.print("[null]\t");
+							} else {								
 							}
-						} // for(c) 문
-						//System.out.print("\n");
+						}						
 					}
-				} // for(r) 문
+				} 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		//엑셀로 내보내기
 		XSSFWorkbook writebook = new XSSFWorkbook();
 		XSSFSheet writesheet = writebook.createSheet("mySheet");
 		
 		//출력 row 생성
-		
 		//내보내기위해 저장
-		
 		for(int i=0;i<save_sentences.length;i++) {
 			row = writesheet.createRow(i);
 			row.createCell(0).setCellValue(save_sentences[i]);
