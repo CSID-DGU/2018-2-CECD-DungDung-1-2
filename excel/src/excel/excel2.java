@@ -9,7 +9,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 
-public class excel1 {
+public class excel2 {
 	
 	static XSSFRow row;
 	static XSSFCell cell;
@@ -21,14 +21,14 @@ public class excel1 {
 	
 	//**************words갯수, 출력갯수, 파일명3개바꾸고, 바꾸려는단어교체***************
 	public static void main(String[] args) {		
-		String words[] = new String[50];	//강의명,교수명 갯수
-		String sentences[] = new String[216];	//바꾸고자하는 문장 갯수
-		String save_sentences[] = new String[648];	//저장하고자하는 문장 갯수(x3)
+		String words[] = new String[96];	//강의명,교수명 갯수
+		String sentences[] = new String[179];	//바꾸고자하는 문장 갯수
+		String save_sentences[] = new String[537];	//저장하고자하는 문장 갯수(x3)
 
 		//단어 배열 만들기
 		try {
 			//파일 불러오기
-			FileInputStream word = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/교수명(50).xlsx");
+			FileInputStream word = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/강의명(96)_2.xlsx");
 			XSSFWorkbook wordbook = new XSSFWorkbook(word);
 			
 			//sheet수 취득
@@ -150,7 +150,7 @@ public class excel1 {
 		// 출력 파일 위치및 파일명 설정
 		FileOutputStream outFile;
 		try {
-			outFile = new FileOutputStream("2019_01_06_10차(교수님질문)_RAN.xlsx");
+			outFile = new FileOutputStream("2019_01_06_10차(교수님질문)_RANN.xlsx");
 			writebook.write(outFile);
 			outFile.close();
 			System.out.println("파일생성 완료");
