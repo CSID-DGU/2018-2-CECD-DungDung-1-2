@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ## 준비된 vocab, tokenizer, kor2vec, Classifier를 사용하여 입력된 문장을 분류하는 코드
-
 # In[1]:
 
 
@@ -207,6 +205,131 @@ result_label = lm.classifySentence(user_question)
 
 
 f = open("label.txt", 'w')
+f.write(result_label[0] + "\n")
+f.write(result_label[1] + "\n")
 f.write(str(result_label[2].item()))
 f.close()
+
+
+# In[12]:
+
+
+import pandas as pd
+
+
+# In[13]:
+
+
+class AnswerMaker:
+    def __init__(self, professorFileName, lectureFileName, abbreviationFileName, answerFolderName):
+        self.professorFileName = professorFileName
+        self.lectureFileName = lectureFileName
+        self.abbreviationFileName = abbreviationFileName
+        
+        self.answerFolderName = answerFolderName    
+    
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.where.html
+    def getAnswer(self, noSymbol_sentence, fixed_sentence, label):
+        answerData = self.readAnswerData(label)
+        
+        # 강의명
+        if label == "0" or label == "1" or label == "4":
+            keywordData = self.readKeywordData(self.lectureFileName)
+            noSymbol_sentence, fixed_sentence = self.changeAbbreviation(noSymbol_sentence, fixed_sentence)
+            keyword = self.findKeyword(noSymbol_sentence, fixed_sentence, keywordData)
+            
+            return keyword
+            
+        # 교수명
+        elif label == "3" or label == "5" or label == "6":
+            keywordData = self.readKeywordData(self.professorFileName)
+            keyword = self.findKeyword(noSymbol_sentence, fixed_sentence, keywordData)
+            
+            return keyword
+        
+        # 교수명 + 강의명
+        elif label == "2":
+            keywordData1 = self.readKeywordData(self.professorFileName)
+            keywordData2 = self.readKeywordData(self.lectureFileName)
+            noSymbol_sentence, fixed_sentence = self.changeAbbreviation(noSymbol_sentence, fixed_sentence)
+            keyword1, keyword2 = self.find2Keyword(noSymbol_sentence, fixed_sentence, keywordData1, keywordData2)
+            
+            return keyword1, keyword2
+            
+        
+        # 해당 답변 가져오기     
+            
+    
+    def readKeywordData(self, filename):
+        return pd.read_excel(filename)["name"]
+    
+    def readAnswerData(self, label):       
+        return pd.read_excel(self.answerFolderName + label + ".xlsx")
+    
+    def readAbbreviationData(self):
+        return pd.read_excel(self.abbreviationFileName)
+    
+    def changeAbbreviation(self, noSymbol_sentence, fixed_sentence):
+        short = pd.read_excel(self.abbreviationFileName)["short"]
+        long = pd.read_excel(self.abbreviationFileName)["long"]
+        flag = False
+        for (s, l) in zip(short, long):
+            if s in noSymbol_sentence:
+                flag = True
+                noSymbol_sentence = noSymbol_sentence.replace(s, l)                
+            if s in fixed_sentence:
+                flag = True
+                fixed_sentence = fixed_sentence.replace(s, l)
+                
+            if flag:
+                return noSymbol_sentence, fixed_sentence
+        return noSymbol_sentence, fixed_sentence
+    
+    def findKeyword(self, noSymbol_sentence, fixed_sentence, keywordData):
+        for k in keywordData:
+            if k in noSymbol_sentence:
+                return k
+            if k in fixed_sentence:
+                return k
+        return None
+            
+    def find2Keyword(self, noSymbol_sentence, fixed_sentence, keywordData1, keywordData2):
+        result1 = None
+        result2 = None
+        for k in keywordData1:
+            if k in noSymbol_sentence:
+                result1 = k
+                break
+            if k in fixed_sentence:
+                result1 = k
+                break
+                
+        for k in keywordData2:
+            if k in noSymbol_sentence:
+                result2 = k
+                break
+            if k in fixed_sentence:
+                result2 = k
+                break
+                
+        return result1, result2
+
+
+# In[14]:
+
+
+f = open("label.txt", 'r')
+noSymbol_sentence = f.readline()
+fixed_sentence = f.readline()
+label = f.readline()
+f.close()
+
+
+# In[15]:
+
+
+am = AnswerMaker("./answerData/교수명.xlsx","./answerData/강의명.xlsx","./answerData/강의명_줄임말.xlsx", "./answerData/")
+answer = am.getAnswer(noSymbol_sentence, fixed_sentence, label)
+
+print(answer)
 
