@@ -21,17 +21,17 @@ public class excel2 {
 	
 	//**************words갯수, 출력갯수, 파일명3개바꾸고, 바꾸려는단어교체***************
 	public static void main(String[] args) {		
-		String words[] = new String[88];	//강의명,교수명 갯수
-		String words1[] = new String[88];
-		String words2[] = new String[88];
-		String words3[] = new String[88];
-		String sentences[] = new String[1797];	//바꾸고자하는 문장 갯수
-		String save_sentences[] = new String[5391];	//저장하고자하는 문장 갯수(x3)
+		String words[] = new String[48];	//강의명,교수명 갯수
+		String words1[] = new String[48];
+		String words2[] = new String[48];
+		String words3[] = new String[48];
+		String sentences[] = new String[6000];	//바꾸고자하는 문장 갯수
+		String save_sentences[] = new String[18000];	//저장하고자하는 문장 갯수(x3)
 
 		//단어 배열 만들기
 		try {
 			//파일 불러오기
-			FileInputStream word = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/강의명(88).xlsx");
+			FileInputStream word = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/교수명(48).xlsx");
 			XSSFWorkbook wordbook = new XSSFWorkbook(word);
 			
 			//sheet수 취득
@@ -72,7 +72,7 @@ public class excel2 {
 		}
 		try {
 			//파일 불러오기
-			FileInputStream word1 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/강의명1(88).xlsx");
+			FileInputStream word1 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/교수명1(48).xlsx");
 			XSSFWorkbook wordbook1 = new XSSFWorkbook(word1);
 			
 			//sheet수 취득
@@ -113,7 +113,7 @@ public class excel2 {
 		}
 		try {
 			//파일 불러오기
-			FileInputStream word2 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/강의명2(88).xlsx");
+			FileInputStream word2 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/교수명2(48).xlsx");
 			XSSFWorkbook wordbook2 = new XSSFWorkbook(word2);
 			
 			//sheet수 취득
@@ -154,7 +154,7 @@ public class excel2 {
 		}
 		try {
 			//파일 불러오기
-			FileInputStream word3 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/강의명3(88).xlsx");
+			FileInputStream word3 = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/교수명3(48).xlsx");
 			XSSFWorkbook wordbook3 = new XSSFWorkbook(word3);
 			
 			//sheet수 취득
@@ -237,7 +237,7 @@ public class excel2 {
 								for(int i=0;i<3;i++)
 								{
 									int random_num = (int)(Math.random()*words.length);
-									save_sentences[count] = save_sentences[count].replace("[[강의명]]", words[random_num]);
+									save_sentences[count] = save_sentences[count].replace("[[교수님_성함]]", words[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[1]]", words1[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[2]]", words2[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[3]]", words3[random_num]);
