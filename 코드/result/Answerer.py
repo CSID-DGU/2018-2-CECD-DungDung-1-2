@@ -211,13 +211,16 @@ f.write(str(result_label[2].item()))
 f.close()
 
 
-# In[12]:
+# In[1]:
 
 
 import pandas as pd
+pd.options.display.max_colwidth = 10000
+
+import re
 
 
-# In[13]:
+# In[2]:
 
 
 class AnswerMaker:
@@ -238,26 +241,43 @@ class AnswerMaker:
             noSymbol_sentence, fixed_sentence = self.changeAbbreviation(noSymbol_sentence, fixed_sentence)
             keyword = self.findKeyword(noSymbol_sentence, fixed_sentence, keywordData)
             
-            return keyword
+            if keyword is not None:
+                try:
+                    result = answerData.loc[answerData['keyword'] == keyword]["answer"].values[0]
+                except KeyError:
+                    result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
+            else:
+                result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
             
         # 교수명
         elif label == "3" or label == "5" or label == "6":
             keywordData = self.readKeywordData(self.professorFileName)
             keyword = self.findKeyword(noSymbol_sentence, fixed_sentence, keywordData)
             
-            return keyword
+            if keyword is not None:
+                try:
+                    result = answerData.loc[answerData['keyword'] == keyword]["answer"].values[0]
+                except KeyError:
+                    result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
+            else:
+                result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
         
         # 교수명 + 강의명
         elif label == "2":
             keywordData1 = self.readKeywordData(self.professorFileName)
             keywordData2 = self.readKeywordData(self.lectureFileName)
             noSymbol_sentence, fixed_sentence = self.changeAbbreviation(noSymbol_sentence, fixed_sentence)
-            keyword1, keyword2 = self.find2Keyword(noSymbol_sentence, fixed_sentence, keywordData1, keywordData2)
+            keyword2, keyword1 = self.find2Keyword(noSymbol_sentence, fixed_sentence, keywordData1, keywordData2)
             
-            return keyword1, keyword2
-            
+            if keyword1 is not None and keyword2 is not None:
+                try:
+                    result = answerData.loc[(answerData['keyword1'] == keyword1) & (answerData['keyword2'] == keyword2)]["answer"].values[0]
+                except KeyError:
+                    result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
+            else:
+                result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"        
         
-        # 해당 답변 가져오기     
+        return result   
             
     
     def readKeywordData(self, filename):
@@ -315,7 +335,7 @@ class AnswerMaker:
         return result1, result2
 
 
-# In[14]:
+# In[3]:
 
 
 f = open("label.txt", 'r')
@@ -325,11 +345,19 @@ label = f.readline()
 f.close()
 
 
-# In[15]:
+# In[4]:
 
 
 am = AnswerMaker("./answerData/교수명.xlsx","./answerData/강의명.xlsx","./answerData/강의명_줄임말.xlsx", "./answerData/")
 answer = am.getAnswer(noSymbol_sentence, fixed_sentence, label)
 
 print(answer)
+
+
+# In[ ]:
+
+
+f = open("answer.txt", 'w')
+f.write(answer)
+f.close()
 
