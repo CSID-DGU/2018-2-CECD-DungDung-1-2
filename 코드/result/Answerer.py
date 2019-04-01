@@ -4,6 +4,15 @@
 # In[1]:
 
 
+# 할일
+#  vocab에 단어 추가하기
+#  데이터셋에 정답 문장 넣기
+#  데이터셋 늘리기 (15배)
+
+
+# In[ ]:
+
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -211,7 +220,7 @@ f.write(str(result_label[2].item()))
 f.close()
 
 
-# In[1]:
+# In[12]:
 
 
 import pandas as pd
@@ -220,7 +229,7 @@ pd.options.display.max_colwidth = 10000
 import re
 
 
-# In[2]:
+# In[13]:
 
 
 class AnswerMaker:
@@ -244,7 +253,7 @@ class AnswerMaker:
             if keyword is not None:
                 try:
                     result = answerData.loc[answerData['keyword'] == keyword]["answer"].values[0]
-                except KeyError:
+                except:
                     result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
             else:
                 result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
@@ -257,7 +266,7 @@ class AnswerMaker:
             if keyword is not None:
                 try:
                     result = answerData.loc[answerData['keyword'] == keyword]["answer"].values[0]
-                except KeyError:
+                except:
                     result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
             else:
                 result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
@@ -268,11 +277,11 @@ class AnswerMaker:
             keywordData2 = self.readKeywordData(self.lectureFileName)
             noSymbol_sentence, fixed_sentence = self.changeAbbreviation(noSymbol_sentence, fixed_sentence)
             keyword2, keyword1 = self.find2Keyword(noSymbol_sentence, fixed_sentence, keywordData1, keywordData2)
-            
+            print(keyword2, keyword1)
             if keyword1 is not None and keyword2 is not None:
                 try:
                     result = answerData.loc[(answerData['keyword1'] == keyword1) & (answerData['keyword2'] == keyword2)]["answer"].values[0]
-                except KeyError:
+                except:
                     result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"
             else:
                 result = "어떤 질문인지 이해하지 못했어요!\n다른 질문 부탁드려요 ^^"        
@@ -335,7 +344,7 @@ class AnswerMaker:
         return result1, result2
 
 
-# In[3]:
+# In[14]:
 
 
 f = open("label.txt", 'r')
@@ -345,7 +354,7 @@ label = f.readline()
 f.close()
 
 
-# In[4]:
+# In[15]:
 
 
 am = AnswerMaker("./answerData/교수명.xlsx","./answerData/강의명.xlsx","./answerData/강의명_줄임말.xlsx", "./answerData/")
@@ -354,7 +363,7 @@ answer = am.getAnswer(noSymbol_sentence, fixed_sentence, label)
 print(answer)
 
 
-# In[ ]:
+# In[16]:
 
 
 f = open("answer.txt", 'w')
