@@ -25,8 +25,8 @@ public class excel2 {
 		String words1[] = new String[48];
 		String words2[] = new String[48];
 		String words3[] = new String[48];
-		String sentences[] = new String[6000];	//바꾸고자하는 문장 갯수
-		String save_sentences[] = new String[18000];	//저장하고자하는 문장 갯수(x3)
+		String sentences[] = new String[9000];	//바꾸고자하는 문장 갯수
+		String save_sentences[] = new String[45000];	//저장하고자하는 문장 갯수(x3)
 
 		//단어 배열 만들기
 		try {
@@ -198,7 +198,7 @@ public class excel2 {
 		
 		//문장 배열 만들기 + 저장
 		try {
-			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2019_03_14_14차(교수님+강의질문)_RAN.xlsx");
+			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/3.교수님+강의질문_2.xlsx");
 			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
@@ -228,13 +228,13 @@ public class excel2 {
 							if (cell1 != null) {
 								sentences[r] = "" + cell1.getStringCellValue();
 								//랜덤으로 3개 문장 넣어서 저장
-								for(int i=0;i<3;i++)
+								for(int i=0;i<5;i++)
 								{
 									save_sentences[count] = sentences[r];
 									count++;
 								}
-								count=count-3;
-								for(int i=0;i<3;i++)
+								count=count-5;
+								for(int i=0;i<5;i++)
 								{
 									int random_num = (int)(Math.random()*words.length);
 									save_sentences[count] = save_sentences[count].replace("[[교수님_성함]]", words[random_num]);
@@ -281,7 +281,7 @@ public class excel2 {
 		// 출력 파일 위치및 파일명 설정
 		FileOutputStream outFile;
 		try {
-			outFile = new FileOutputStream("2019_03_14_14차(교수님+강의질문)_RAN.xlsx");
+			outFile = new FileOutputStream("3.교수님+강의질문.xlsx");
 			writebook.write(outFile);
 			outFile.close();
 			System.out.println("파일생성 완료");
