@@ -26,7 +26,7 @@ public class excel2 {
 		String words2[] = new String[48];
 		String words3[] = new String[48];
 		String sentences[] = new String[9000];	//바꾸고자하는 문장 갯수
-		String save_sentences[] = new String[45000];	//저장하고자하는 문장 갯수(x3)
+		String save_sentences[] = new String[18000];	//저장하고자하는 문장 갯수(x00x2)
 
 		//단어 배열 만들기
 		try {
@@ -198,7 +198,7 @@ public class excel2 {
 		
 		//문장 배열 만들기 + 저장
 		try {
-			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/3.교수님+강의질문_2.xlsx");
+			FileInputStream sentence = new FileInputStream("C:\\Users\\NA\\git\\Project\\Dataset\\데이터셋/2.교수님+강의질문_2.xlsx");
 			XSSFWorkbook sentencebook = new XSSFWorkbook(sentence);
 			//sheet수 취득
 			//int sheetCn = workbook.getNumberOfSheets();
@@ -227,20 +227,21 @@ public class excel2 {
 							cell1 = row1.getCell(c);
 							if (cell1 != null) {
 								sentences[r] = "" + cell1.getStringCellValue();
-								//랜덤으로 3개 문장 넣어서 저장
-								for(int i=0;i<5;i++)
+								//랜덤으로 00개 문장 넣어서 저장
+								for(int i=0;i<1;i++)
 								{
 									save_sentences[count] = sentences[r];
 									count++;
 								}
-								count=count-5;
-								for(int i=0;i<5;i++)
+								count=count-1;
+								for(int i=0;i<1;i++)
 								{
 									int random_num = (int)(Math.random()*words.length);
 									save_sentences[count] = save_sentences[count].replace("[[교수님_성함]]", words[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[1]]", words1[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[2]]", words2[random_num]);
 									save_sentences[count] = save_sentences[count].replace("[[3]]", words3[random_num]);
+									save_sentences[count+9000] = words[random_num];
 									count++;
 								}														
 							} else {								
@@ -281,7 +282,7 @@ public class excel2 {
 		// 출력 파일 위치및 파일명 설정
 		FileOutputStream outFile;
 		try {
-			outFile = new FileOutputStream("3.교수님+강의질문.xlsx");
+			outFile = new FileOutputStream("2.교수님+강의질문.xlsx");
 			writebook.write(outFile);
 			outFile.close();
 			System.out.println("파일생성 완료");
